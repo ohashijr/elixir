@@ -539,7 +539,28 @@ iex> carrinho |> Enum.map(&(Float.round(&1.valor - &1.valor * 0.3, 2))) |> Enum.
 ```
 
 ## 8 Composição
+Acima apredemos criar modulos e struct, agora iremos aprender a adcionar uma funcionalidade exitente neles, por meio da compisição. Veremos que `elixir` oferece vastas maneiras direntes para interagir com outros módulos.
+
  * alias
+ Cria nome falsos ou podese dizer apelidos, muito usado em código elixir.
+
+ ```elixir
+ defmodule Sayings.Greetings do
+   def basic(name), do: "Hi, #{name}"
+ end
+
+ defmodule Example do
+   alias Sayings.Greetings
+
+   def greeting(name), do: Greetings.basic(name)
+ end
+
+ # Sem alias
+
+ defmodule Example do
+   def greeting(name), do: Sayings.Greetings.basic(name)
+ end 
+ ```
  * import
  * require
  * use
