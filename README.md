@@ -566,6 +566,25 @@ iex> Media.notas 5,5,5,5
    def notas(name), do: Soma.numero(n1,n2,n3,n4)/4
  end
  ```
+
+ Em caso de algum conflito com alias ou simplesmente queira criar um outro apelido completamente diferente, usa-se o `:as`.
+
+ O exemplo a seguir criará um apelido para o alias Soma.
+
+ ```elixir
+ #apelido para o alias
+ defmodule Media do                                       
+   alias Soma, as: Somar                                          
+   def notas(n1,n2,n3,n4), do: Somar.numero(n1,n2,n3,n4)/4
+ end
+ ```
+ Também pode ser criados aplidos para multiplos módulos de uma só vez, observe:
+
+ ```elixir
+
+
+ ```
+
  * import
  * require
  * use
