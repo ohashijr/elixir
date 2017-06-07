@@ -1,4 +1,4 @@
-# Elixir
+## Elixir
 
 ## 1 Primeiros Passos
 
@@ -546,20 +546,24 @@ Acima apredemos criar modulos e struct, agora iremos aprender a adcionar uma fun
    Sua função é criar criptônimos ou pode-se dizer "apelidos", alias  sãos muito usadas em código elixir.
 
  ```elixir
- defmodule Sayings.Greetings do
-   def basic(name), do: "Hi, #{name}"
- end
+#criação do modulo soma
+defmodule Soma do
+        def numero(a,b,c,d), do: a+b+c+d
+end
 
- defmodule Example do
-   alias Sayings.Greetings
+#modulo com alias
+defmodule Media do                                       
+  alias Soma #alias do modulo soma                                          
+  def notas(n1,n2,n3,n4), do: Soma.numero(n1,n2,n3,n4)/4
+end
 
-   def greeting(name), do: Greetings.basic(name)
- end
+#Exemplo
+iex> Media.notas 5,5,5,5
+5.0
 
  # Sem alias
-
- defmodule Example do
-   def greeting(name), do: Sayings.Greetings.basic(name)
+ defmodule Media do
+   def notas(name), do: Soma.numero(n1,n2,n3,n4)/4
  end
  ```
  * import
