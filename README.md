@@ -585,28 +585,74 @@ iex> Media.notas 5,5,5,5
 
  ```
 
- * import
+ * **import**
+  Usa-se import sempre que quisermos acessar facilmente funções ou macros de outros módulos, sem a necessidade de usar o nome completo.
+
+  Vamos ver um exemplo bem silmples, vamos criar um modulo com as seguintes funções: soma, subtração, multiplicação e divisão.
+
+  ```elixir
+  defmodule Algebricas do                          
+     def soma(n1,n2,n3,n4), do: n1+n2+n3+n4         
+     def subtracao(n1,n2,n3,n4), do: n1-n2-n3-n4    
+     def multiplicacao(n1,n2,n3,n4), do: n1*n2*n3*n4
+     def divisao(n1,n2,n3,n4), do: n1/n2/n3/n4      
+  end  
+  ```
+  Agora quero usar as funções de dentro do módulo Algebricas sem ter que escrever Algebricas.soma, Algebricas.subtracao e etc.
+
+  ```elixir
+  import Algebricas
+
+  soma 2,3,4,5,6
+  17
+
+  subtracao 2,4,2,8  
+  -12
+
+  multiplicacao 2,2,2,2
+  16
+
+  divisao 10,2,2,2
+  1.25  
+  ```
+  **Filtrando**
+
+  Perceba que quando executar o comando `import soma`, todas as funções e macros são importadas. Pode ser filtrado usando as opções `only` e `except`.
+
+  Digamos quero importar apenas a função soma do módulo Algebricas, usamos o only.
+
+  ```elixir
+  import Algebricas, only: [soma: 4]    
+  ```
+  Observe que soma foi improtada da seguinte forma [soma: 4], esse "4" tem haver com a aridade da função soma. Teste importar sem o :4 e verifique o que acontece.  
+
+  Se tentar usar as outras funções do modulo Algebricas, será gerado erro:
+
+  ```elixir
+  iex(6)> divisao 2,2,2,2  
+  ** (CompileError) iex:6: undefined function divisao/4  
+  ```
+  Agora que todas as funções do modulo Algebricas, menos a "soma". Para isso acontecer usamos o except:
+
+  ```elixir
+  iex(6)> import Algebricas, except: [soma: 4]
+  Algebricas
+  iex(7)> soma 2,2,3,4
+  ** (CompileError) iex:7: undefined function soma/4
+  iex(8)> subtracao 2,2,2,2
+  -4
+  iex(9)> divisao 10,2,1,1
+  5.0
+  iex(10)>  
+  ```
+  Analisando o exemplo acima, percebe-se que quando tento usar a função soma do módulo Algebricas e gerado um erro.
+
+  Ainda existe dois átomos ou atom especiais que são, :function e :macros, que tem como objetico importar apenas funções e macros, repectativamente.        
+
  * require
  * use
 
 ## 9 Recursividade
-A recursividade é a definição de uma sub-rotina (função ou método) que pode invocar a si mesma, até que uma condição seja atinjida e resolva um determinado problema.
-No exemplo a seguir, o modulo `Repetir` imprime uma msg 10x:
 
-```elixir
-defmodule Repetir do
-  def imprimir_varias_vezes(msg, n) when n <= 1 do
-    IO.puts msg
-  end
-
-  def imprimir_varias_vezes(msg, n) do
-    IO.puts msg
-    imprimir_varias_vezes(msg, n - 1)
-  end
-end
-
-iex>Repetir.imprimir_varias_vezes("Elixir", 10)
-
-```
 
 ## 0 Mix
