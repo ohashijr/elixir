@@ -590,6 +590,23 @@ iex> Media.notas 5,5,5,5
  * use
 
 ## 9 Recursividade
+A recursividade é a definição de uma sub-rotina (função ou método) que pode invocar a si mesma, até que uma condição seja atinjida e resolva um determinado problema.
+No exemplo a seguir, o modulo `Repetir` imprime uma msg 10x:
 
+```elixir
+defmodule Repetir do
+  def imprimir_varias_vezes(msg, n) when n <= 1 do
+    IO.puts msg
+  end
+
+  def imprimir_varias_vezes(msg, n) do
+    IO.puts msg
+    imprimir_varias_vezes(msg, n - 1)
+  end
+end
+
+iex>Repetir.imprimir_varias_vezes("Elixir", 10)
+
+```
 
 ## 0 Mix
