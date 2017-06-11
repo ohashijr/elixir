@@ -1,5 +1,17 @@
 ## Elixir
 
+“Elixir é uma linguagem dinâmica e funcional projetada para construir aplicações escaláveis e de fácil manutenção.” — [Elixir-lang.org](https://elixir-lang.org/)
+
+Elixir aproveita a massivamente testada máquina virtual do Erlang para construir sistemas distribuídos e tolerantes a falhas com baixa latência.
+
+Características | Função
+--------------- | ---------------
+Escalável       | habilidade de manipular uma porção crescente de trabalho de forma uniforme
+Tolerante a falhas | existe como reiniciar partes do seu sistema quando algo estiver em declínio, e iniciar do estado que garante o funcionamento
+Programação funcional | basicamente é tornar uma visao explícita das partes complexas do seu sistema
+Extensível      | permite adicionar novas construções como se fossem parte da própria linguagem Elixir
+
+
 ## 1 Primeiros Passos
 
 ### 1.1 Instalando Elixir
@@ -28,41 +40,177 @@ Para iniciar, executamos `iex`:
 ![alt text](https://github.com/ohashijr/elixir/blob/master/img/modointerativo.png "Modo interativo do Elixir")
 
 
-## 1.3 Aridade de funções
+## 2 Tipos e Operações Básicas
 
-Aridade em linguagem funcionais corresponde ao número de argumentos que uma determinada função recebe.
-No próprio terminal, voce pode consultar o `IEx.Helpers` (O módulo interativo de ajuda com o Elixir) que oferece auxílios durante o desenvolvimento e torna o terminal do Elixir mais prazeroso para o trabalho :smile:
+ Nessa parte, Elixir também é semelhante as diversas linguagens de programação existentes, possuindo tipos numéricos, Strings, booleanos e coleções(veremos esse assunto no próxmio módulo). Entretanto ela também nos trás algumas caracteristicas de suporte para estruturas binárias, hexais e octais e a novas estruturas, como atoms(equivalente aos Símbolos em Ruby).
 
-Então, após execultar o comando `iex` digite um simples `h` que o IEX.Helpers explica:
+ Abra o shell e execute o comando `iex` pra começar a brincadeira.
 
-* `b/1           - prints callbacks info and docs for a given module`
-* `c/1           - compiles a file into the current directory`
-* `c/2           - compiles a file to the given path`
-* `cd/1          - changes the current directory`
-* `clear/0       - clears the screen`
-* `flush/0       - flushes all messages sent to the shell`
-* `h/0           - prints this help message`
-* `h/1           - prints help for the given module, function or macro`
-* `i/1           - prints information about the data type of any given term`
-* `import_file/1 - evaluates the given file in the shell's context`
-* `l/1           - loads the given module's BEAM code`
-* `ls/0          - lists the contents of the current directory`
-* `ls/1          - lists the contents of the specified directory`
-* `nl/2          - deploys local BEAM code to a list of nodes`
-* `pid/1         - creates a PID from a string`
-* `pid/3         - creates a PID with the 3 integer arguments passed`
-* `pwd/0         - prints the current working directory`
-* `r/1           - recompiles the given module's source file`
-* `recompile/0   - recompiles the current project`
-* `respawn/0     - respawns the current shell`
-* `s/1           - prints spec information`
-* `t/1           - prints type information`
-* `v/0           - retrieves the last value from the history`
-* `v/1           - retrieves the nth value from the history`
+### 2.1 Tipos Numéricos
 
+* Inteiros
+Podemos escrever os números inteiros de duas formas, na primeira apenas digitando o número como: 99 ou utilizando underline/underscore para facilitar na leitura do número quando existem muitos zeros.
 
-## 2 Coleções
-### 2.1 Listas
+```elixir
+iex> 99
+99
+
+iex> 2_00
+200
+
+iex> 3_000
+3000
+
+iex> 9_000_000
+9000000
+```
+
+* Pontos Flutuantes
+Em Elixir, os números de ponto flutuante requerem um decimal depois de pelo menos um dígito; estes possuem uma precisão de 64 bits.
+
+```elixir
+iex> 1.0
+1.0
+
+iex> 3.14
+ 3.14
+
+iex> .14
+** (SyntaxError) iex:2: syntax error before: '.'
+```
+
+### 2.2 Binários, Hexadecimais e Octais
+
+Em Elixir, existem diferentes prefixos para a conversão de determinado numero para outra base numérica. Iremos converter para decimal, e precisamos acrescentar o prefixo `0b`.
+
+```elixir
+iex> 0b1110
+14
+
+iex> 0b1111
+15
+
+iex> 0b10000
+16
+```
+
+Para a conversão de números Hexadecimais, temos o prefixo `0x`.
+
+```elixir
+iex> 0xd
+13
+
+iex> 0xe
+14
+
+iex> 0xf
+15
+```
+
+Por fim, de Octais para decimais `0o`.
+
+```elixir
+iex> 0o12
+10
+
+iex> 0o13
+11
+
+iex> 0o14
+12
+```
+### 2.3 Atoms
+
+Um Átomo é uma constante cujo o nome é seu valor. em Elixir ele é representado por : (dois pontos) em seguida um texto. Geralmente atoms são mais comuns para sinalizar alguma mensagem como de erro ou sucesso.
+
+```elixir
+iex> :sucess
+:sucess
+
+iex> :error404
+:error404
+
+iex> :paiDegua
+:paiDegua
+```
+
+### 2.4 Booleanos
+
+Elixir apresenta três maneiras de expressões booleans: `true`, `false` e `nil`(avaliado como false em contextos booleanos).
+
+```elixir
+iex> true
+true
+
+iex> false
+false
+
+iex> nil
+nil
+```
+
+### 2.5 Strings
+
+As strings em Elixir são codificadas em UTF-8 e são representadas com aspas duplas:
+
+```elixir
+iex> "Elixir"
+"Elixir"
+
+iex> "égüà"
+"égüà"
+```
+
+### 2.6 Operações Básicas
+
+* Aritimética
+Elixir suporta os operadores básicos `+, -, *,` e `/` como era de esperar. É importante ressaltar que `/` sempre retornará um número ponto flutuante:
+
+```elixir
+iex> 7 + 7
+14
+
+iex> 14 - 1
+13
+
+iex> 20 * 5
+100
+
+iex> 10 / 2
+5.0
+```
+
+Se você necessita de uma divisão inteira ou o resto da divisão, Elixir vem com duas funcionalidades úteis para isto:
+
+```elixir
+iex> div(10, 5)
+2
+iex> rem(10, 3)
+1
+```
+
+* Expressões booleanas
+
+-------- | ----------------------------------------------
+`a or b	` |	 	`true se	a	é	true;	caso contrário, b.`
+`a	and	b` |	 	`false	se a é false;	caso contrário, b.`
+`not a	 ` |	 	` false se	a	é	true;	caso contrário, true.`
+`a	|| b	` |	 	` a se	a	é true;	caso contrário,	b.`
+`a	&& b	` |	 	` b se	a	é true;	caso contrário,	a.`
+	`!a	 ` |	`false se	a	é true;	caso contrário, true.`
+--------------- | ---------------- | ------------
+`a	 	!==	 	b	` |	 ` 	1	!==	1.0	 ` | 	`	 	true	 .`
+`a	 	==	 	b	` |	 	`	1	==	1.0	 ` | 	` 	true	 .`
+`a	 	!=	 	b	` |	 	`	1	!=	1.0	 ` |	` 	false	 .`
+
+------------- | ---------------------------
+`a	 	>	 	b	` |	 	`	se	a	é	maior	do	que	b.`
+`a	 	>=	 	b`|	`	se	a	é	maior	ou	igual	a	b.`
+`a	 	<	 	b	` |	 	`se	a	é	menor	do	que	b.`
+`a	 	<=	 	b	`| 	`	se	a	é	menor	ou	igual	a	b`
+
+## 3 Coleções
+### 3.1 Listas
 
 Listas  são  um  tipo  de  coleção  de  elementos  e  podem conter diversos outros tipos dentro dela. Uma lista pode conter valores númericos, Strings e booleans, por exemplo.
 
@@ -85,7 +233,7 @@ iex> lista ++ ["Cherry"]
 ```
 
 
-#### Concatenação de listas
+#### 3.1.1 Concatenação de listas
 
 A concatenação de listas usa o operador ++/2.
 
@@ -94,7 +242,7 @@ iex> [1, 2] ++ [3, 4, 1]
 [1, 2, 3, 4, 1]
 ```
 
-#### Subtração de listas
+#### 3.1.2 Subtração de listas
 
 O suporte para subtração é provido pelo operador --/2; é seguro subtrair um valor que não existe:
 
@@ -119,10 +267,8 @@ iex> newLista ++ lista #concatenando as duas listas
 [1,2,3,4,1,2,3]
 ```
 
-#### Lazy Evaluation
 
-
-### 2.2 Tuplas
+### 3.2 Tuplas
 
 As tuplas são similares as listas porém são armazenadas de maneira contígua em memória. Isto permite acessar a sua profundidade de forma rápida porém sua modificação é custosa. A nova tupla deve ser armazenada inteira na memória. As tuplas são definidas com chaves.
 
@@ -147,7 +293,8 @@ iex> put_elem tupla, 0, 3 #atualizando o valor do indice zero
 {3, :okgoogle, "AppleStore", true, 2}
 ```
 
-### 2.3 Maps
+### 3.3 Maps
+
 Mapas são uma coleção de chave/valor e são similares a tuplas, exceto  quando adicionamos um sinal  de  % (porcentagem)  na frente das chaves.
 
 ```elixir
@@ -199,7 +346,7 @@ iex> map.hello
 ```
 
 
-## 3 Patthern Matching
+## 4 Patthern Matching
 
 Em Elixir, o operador `=` é na verdade o nosso operador match, comparável ao sinal de igualdade da matemática. Quando usado, a expressão inteira se torna uma equação e faz com que Elixir combine os valores do lado esquerdo com os valores do lado direito da expressão. Se a comparação for bem sucedida, o valor da equação é retornado. Se não, um erro é lançado. Vejamos a seguir:
 
@@ -258,13 +405,47 @@ iex> x
 4
 ```
 
-## 4 Funções
+## 5 Funções
 Em linguagens funcionais como o **elixir** as funções são cidadãos de primeira classe.
 
-Funções podem ser criadas dentro de um modulo, utilizando a paralavra def em seguida o nome da função e seus argumentos. Também podem ser criadas sem argumentos e, até mesmo sem nomes.
-Aprenderemos a seguir qual a diferença, como usar funções e tipos de funções em elixir.  
+Funções podem ser criadas dentro de um modulo, utilizando a paralavra `def` em seguida o `nome da função` e seus `argumentos.` Também podem ser criadas sem argumentos e, até mesmo sem nomes.
+Aprenderemos o conceito de aridades de funções e em seguida quais são os tipos de funções, a diferença e como usar funções em elixir.  
 
-### 4.1 Nomeadas
+
+## 5.1 Aridade de funções
+
+Aridade em linguagem funcionais corresponde ao número de argumentos que uma determinada função recebe.
+No próprio terminal, voce pode consultar o `IEx.Helpers` (O módulo interativo de ajuda com o Elixir) que oferece auxílios durante o desenvolvimento e torna o terminal do Elixir mais prazeroso para o trabalho :smile:
+
+Então, após execultar o comando `iex` digite um simples `h` que o IEX.Helpers explica:
+
+* `b/1           - prints callbacks info and docs for a given module`
+* `c/1           - compiles a file into the current directory`
+* `c/2           - compiles a file to the given path`
+* `cd/1          - changes the current directory`
+* `clear/0       - clears the screen`
+* `flush/0       - flushes all messages sent to the shell`
+* `h/0           - prints this help message`
+* `h/1           - prints help for the given module, function or macro`
+* `i/1           - prints information about the data type of any given term`
+* `import_file/1 - evaluates the given file in the shell's context`
+* `l/1           - loads the given module's BEAM code`
+* `ls/0          - lists the contents of the current directory`
+* `ls/1          - lists the contents of the specified directory`
+* `nl/2          - deploys local BEAM code to a list of nodes`
+* `pid/1         - creates a PID from a string`
+* `pid/3         - creates a PID with the 3 integer arguments passed`
+* `pwd/0         - prints the current working directory`
+* `r/1           - recompiles the given module's source file`
+* `recompile/0   - recompiles the current project`
+* `respawn/0     - respawns the current shell`
+* `s/1           - prints spec information`
+* `t/1           - prints type information`
+* `v/0           - retrieves the last value from the history`
+* `v/1           - retrieves the nth value from the history`
+
+
+### 5.2 Nomeadas
 Funções nomeadas são criadas dentro de um modulo, utilizando a palavra `def`  em seguida o nome da função e seus argumentos. Podemos definir esse tipo de função para mencionar a elas futuramente.
 
 ```elixir
@@ -322,7 +503,7 @@ iex(3)>
 ```
 Observe não foi preciso colocar os parênteses para chamar a função.
 
-### 4.2 Privadas
+### 5.3 Privadas
 As funções privadas só podem ser chamadas de dentro do módulo no qual foram declaradas. Bem parecido com que acontece em outras linguagens.
 
 No exemplo que irá ser criado, será declarada um função com `defp` em de `def`. significa que se trata de uma função restrita somente para chamadas internas.
@@ -345,7 +526,7 @@ iex(8)> Media.soma 2,3,4,5
 ```
 Como podemos observar é gerado o seguinte erro: A função Media.soma/4 é indefinida ou privada.
 
-### 4.3 Anônimas
+### 5.4 Anônimas
 Como nome já diz, uma função anônima não tem nome. São frequentemente passadas para outras funções.
 
 Em elixir ela é criada da seguinte forma: usando a palavra chave `fn` e `end`, acrescentando os argumentos e um `->` que representa o corpo da função. A função é ligada por meio de `match` a uma variável que servirá para execultá-la futuramente.
@@ -380,7 +561,7 @@ iex(5)> soma 8,10
 
 iex(5)>
 ```
-### A & taquigrafia
+### 5.5 A & taquigrafia
 Em elixir é muito comum a criação de funções anonimas, por isso que desenvolvedores resolveram criar um atalho para elas. Para usar o atalho, basta utilizar o `&` seguindo de parênteses com o o corpo da função. Os argumentos são nomeados a seguinte forma: &1, &2, ... &n.
 
 ```elixir
@@ -406,7 +587,7 @@ iex(9)>
 ## Guards
 
 
-## 5 Modulo
+## 6 Modulo
 
 Os módulos são a melhor maneira de organizar as funções em um namespace. Além de agrupar funções, eles permitem definir funções nomeadas e privadas que cobrimos nas lições passadas. Para isso, basta utilizar a palavra reservada defmodule seguida do nome do módulo, por exemplo, defmodule Multiplicacao.
 
@@ -425,7 +606,7 @@ iex> Multiplicacao.multiplique 5, 4
 20
 ```
 
-### 5.1 Compilação
+### 6.1 Compilação
 
 Na maioria das vezes é conveniente escrever módulos em arquivos para que eles possam ser compilados e reutilizados. Vamos supor que temos um arquivo multiplicacao.ex com o seguinte conteúdo:
 
@@ -458,7 +639,7 @@ Os projetos Elixir geralmente são organizados em três diretórios:
 
 Ao mixtrabalhar em projetos reais, a ferramenta de construção chamada será responsável por compilar e configurar os caminhos adequados para você. Para fins de aprendizagem, Elixir também oferece suporte a um modo de script que é mais flexível e não gera nenhum artefato compilado.
 
-## 6 Structs
+## 7 Structs
 
 Structs são mapas especiais com um conjunto definido de chaves e valores padrões. Ele deve ser definido dentro de um módulo, no qual leva o nome dele. É comum para um struct ser a única coisa definido dentro de um módulo.
 
@@ -500,7 +681,7 @@ Mais importante, você pode associar estruturas contra mapas:
 iex> %{name: "Sean"} = sean
 %Example.User{name: "Sean", roles: [:admin, :owner]}
 ```
-## 7 Operador pipe
+## 8 Operador pipe
 O operador pipe |> é um grande auxiliador na hora de construir seu código em Elixir. O seu uso é simples de se entender. Ele pega o resultado da expressão da esquerda e aponta para o primeiro argumento da função a sua direita e assim segue.O objetivo é destacar os dados que estão sendo transformados por uma série de funções, e você pode tornar o seu código limpo.
 
 ```elixir
@@ -538,7 +719,7 @@ iex> carrinho |> Enum.map(&(Float.round(&1.valor - &1.valor * 0.3, 2))) |> Enum.
 
 ```
 
-## 8 Composição
+## 9 Composição
 Acima apredemos criar modulos e struct, agora iremos aprender a adcionar uma funcionalidade exitente neles, por meio da compisição. Veremos que `elixir` oferece vastas maneiras direntes para interagir com outros módulos.
 
  * **alias**
@@ -653,8 +834,8 @@ iex> Media.notas 5,5,5,5
 
  * use
 
-## 9 Recursividade
-A recursividade é a definição de uma sub-rotina (função ou método) que pode invocar a si mesma, até que uma condição seja atinjida e resolva um determinado problema.
+## 10 Recursividade
+A recursividade é a definição de uma sub-rotina (função ou método) que pode invocar a si mesma, até que uma condição seja atingida e resolva um determinado problema.
 +No exemplo a seguir, o modulo `Repetir` imprime uma msg 10x:
 
 ```elixir
