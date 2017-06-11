@@ -191,6 +191,7 @@ iex> rem(10, 3)
 
 * Expressões booleanas
 
+Entrada  | Saída
 -------- | ----------------------------------------------
 a or b	 |	 true se	a	é	true;	caso contrário, b.
 a	and	b |		false	se a é false;	caso contrário, b.
@@ -198,12 +199,14 @@ not a	 |	 	 false se	a	é	true;	caso contrário, true.
 a	|| b	 |	 	 a se	a	é true;	caso contrário,	b.
 a	&& b	 |	 	 b se	a	é true;	caso contrário,	a.
 	!a	  |	false se	a	é true;	caso contrário, true.
-  
+
+Entrada         | Exemplo          |  Saída
 --------------- | ---------------- | ------------
 a	 	!==	 	b	 |	  	1	!==	1.0	  | 		 	true	 
 a	 	==	 	b	 |	 		1	==	1.0	  | 	 	true	 
 a	 	!=	 	b	 |	 		1	!=	1.0	  |	 	false
 
+Entrada       | Saída
 ------------- | ---------------------------
 a	 	>	 	b	 |	 		se	a	é	maior	do	que	b.
 a	 	>=	 	b|		se	a	é	maior	ou	igual	a	b.
