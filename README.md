@@ -192,22 +192,23 @@ iex> rem(10, 3)
 * Expressões booleanas
 
 -------- | ----------------------------------------------
-`a or b	` |	 	`true se	a	é	true;	caso contrário, b.`
-`a	and	b` |	 	`false	se a é false;	caso contrário, b.`
-`not a	 ` |	 	` false se	a	é	true;	caso contrário, true.`
-`a	|| b	` |	 	` a se	a	é true;	caso contrário,	b.`
-`a	&& b	` |	 	` b se	a	é true;	caso contrário,	a.`
-	`!a	 ` |	`false se	a	é true;	caso contrário, true.`
+a or b	 |	 true se	a	é	true;	caso contrário, b.
+a	and	b |		false	se a é false;	caso contrário, b.
+not a	 |	 	 false se	a	é	true;	caso contrário, true.
+a	|| b	 |	 	 a se	a	é true;	caso contrário,	b.
+a	&& b	 |	 	 b se	a	é true;	caso contrário,	a.
+	!a	  |	false se	a	é true;	caso contrário, true.
+  
 --------------- | ---------------- | ------------
-`a	 	!==	 	b	` |	 ` 	1	!==	1.0	 ` | 	`	 	true	 .`
-`a	 	==	 	b	` |	 	`	1	==	1.0	 ` | 	` 	true	 .`
-`a	 	!=	 	b	` |	 	`	1	!=	1.0	 ` |	` 	false	 .`
+a	 	!==	 	b	 |	  	1	!==	1.0	  | 		 	true	 
+a	 	==	 	b	 |	 		1	==	1.0	  | 	 	true	 
+a	 	!=	 	b	 |	 		1	!=	1.0	  |	 	false
 
 ------------- | ---------------------------
-`a	 	>	 	b	` |	 	`	se	a	é	maior	do	que	b.`
-`a	 	>=	 	b`|	`	se	a	é	maior	ou	igual	a	b.`
-`a	 	<	 	b	` |	 	`se	a	é	menor	do	que	b.`
-`a	 	<=	 	b	`| 	`	se	a	é	menor	ou	igual	a	b`
+a	 	>	 	b	 |	 		se	a	é	maior	do	que	b.
+a	 	>=	 	b|		se	a	é	maior	ou	igual	a	b.
+a	 	<	 	b	 |	 se	a	é	menor	do	que	b.
+a	 	<=	 	b	| 		se	a	é	menor	ou	igual	a	b.
 
 ## 3 Coleções
 ### 3.1 Listas
