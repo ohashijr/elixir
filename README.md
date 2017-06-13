@@ -65,7 +65,7 @@ iex> 9_000_000
 9000000
 ```
 
-* Pontos Flutuantes
+* Pontos Flutuantes:
 Em Elixir, os números de ponto flutuante requerem um decimal depois de pelo menos um dígito; estes possuem uma precisão de 64 bits.
 
 ```elixir
@@ -163,7 +163,8 @@ iex> "égüà"
 
 ### 2.6 Operações Básicas
 
-* Aritimética
+* Aritimética:
+
 Elixir suporta os operadores básicos `+, -, *,` e `/` como era de esperar. É importante ressaltar que `/` sempre retornará um número ponto flutuante:
 
 ```elixir
@@ -189,7 +190,8 @@ iex> rem(10, 3)
 1
 ```
 
-* Expressões booleanas
+* Expressões booleanas:
+
 
 Entrada  | Saída
 -------- | ----------------------------------------------
@@ -408,14 +410,77 @@ iex> x
 4
 ```
 
-## 5 Funções
+## 5 Estruturas de Controle
+
+* If e unless:
+
+Existem chances de que você já tenha encontrado `if` antes, e caso você tenha utilizado Ruby você é familiarizado com `unless`. Em Elixir eles trabalham praticamente da mesma forma.
+
+```elixir
+
+iex> if String.valid?("Ola") do
+...>   "String válida!"
+...> else
+...>   "String inválida."
+...> end
+"String válida!"
+```
+Usar unless é bem parecido o uso do if porém trabalhando de forma negativa:
+
+```elixir
+
+iex> unless true do
+...>   "Essa linha nunca será impressa"
+...> end
+nil
+```
+
+* Case:
+
+Caso seja necessário combinar multiplos padrões nós poderemos utilizar `case`:
+
+```elixir
+
+iex> case :elixir do
+...> :java -> "Isso nao combina com :elixir"
+...> :php -> "Isso menos"  
+...> 1     -> "Tambem nao"
+...> :elixir -> "Tudo certo! Casou :elixir com :elixir"
+end
+"Tudo certo! Casou :elixir com :elixir"
+
+iex> case 90 do
+...> 50 -> "Some mais 40 que é 90"  
+...> 40  -> "Falta muito pra 90"
+...> _    -> "Underline/Underscore nao é 90, mas é um coringa que casa com tudo!"
+end
+"Tudo certo! Casou :elixir com :elixir"
+```
+
+* Cond:
+
+Quando necessitamos associar condições, e não valores, nós podemos recorrer ao cond; Isso é semelhante ao else if ou elsif de outras linguagens:
+
+
+iex> cond do
+...>   2 + 2 == 5 ->
+...>     "Isso ai nao é verdade."
+...>   2 * 2 == 3 ->
+...>     "Nada disso tambem..."
+...>   1 + 1 == 2 ->
+...>     "Acertou a cond!"
+...> end
+"Acertou a cond!"
+
+
+## 6 Funções
 Em linguagens funcionais como o **elixir** as funções são cidadãos de primeira classe.
 
 Funções podem ser criadas dentro de um modulo, utilizando a paralavra `def` em seguida o `nome da função` e seus `argumentos.` Também podem ser criadas sem argumentos e, até mesmo sem nomes.
 Aprenderemos o conceito de aridades de funções e em seguida quais são os tipos de funções, a diferença e como usar funções em elixir.  
 
 
-## 5.1 Aridade de funções
+## 6.1 Aridade de funções
 
 Aridade em linguagem funcionais corresponde ao número de argumentos que uma determinada função recebe.
 No próprio terminal, voce pode consultar o `IEx.Helpers` (O módulo interativo de ajuda com o Elixir) que oferece auxílios durante o desenvolvimento e torna o terminal do Elixir mais prazeroso para o trabalho :smile:
@@ -448,7 +513,7 @@ Então, após execultar o comando `iex` digite um simples `h` que o IEX.Helpers 
 * `v/1           - retrieves the nth value from the history`
 
 
-### 5.2 Nomeadas
+### 6.2 Nomeadas
 Funções nomeadas são criadas dentro de um modulo, utilizando a palavra `def`  em seguida o nome da função e seus argumentos. Podemos definir esse tipo de função para mencionar a elas futuramente.
 
 ```elixir
@@ -506,7 +571,7 @@ iex(3)>
 ```
 Observe não foi preciso colocar os parênteses para chamar a função.
 
-### 5.3 Privadas
+### 6.3 Privadas
 As funções privadas só podem ser chamadas de dentro do módulo no qual foram declaradas. Bem parecido com que acontece em outras linguagens.
 
 No exemplo que irá ser criado, será declarada um função com `defp` em de `def`. significa que se trata de uma função restrita somente para chamadas internas.
@@ -529,7 +594,7 @@ iex(8)> Media.soma 2,3,4,5
 ```
 Como podemos observar é gerado o seguinte erro: A função Media.soma/4 é indefinida ou privada.
 
-### 5.4 Anônimas
+### 6.4 Anônimas
 Como nome já diz, uma função anônima não tem nome. São frequentemente passadas para outras funções.
 
 Em elixir ela é criada da seguinte forma: usando a palavra chave `fn` e `end`, acrescentando os argumentos e um `->` que representa o corpo da função. A função é ligada por meio de `match` a uma variável que servirá para execultá-la futuramente.
@@ -564,7 +629,7 @@ iex(5)> soma 8,10
 
 iex(5)>
 ```
-### 5.5 A & taquigrafia
+### 6.5 A & taquigrafia
 Em elixir é muito comum a criação de funções anonimas, por isso que desenvolvedores resolveram criar um atalho para elas. Para usar o atalho, basta utilizar o `&` seguindo de parênteses com o o corpo da função. Os argumentos são nomeados a seguinte forma: &1, &2, ... &n.
 
 ```elixir
@@ -587,10 +652,8 @@ iex(8)> multiplica_e_soma.(2,5,10)
 iex(9)>
 ```
 
-## Guards
 
-
-## 6 Modulo
+## 7 Modulo
 
 Os módulos são a melhor maneira de organizar as funções em um namespace. Além de agrupar funções, eles permitem definir funções nomeadas e privadas que cobrimos nas lições passadas. Para isso, basta utilizar a palavra reservada defmodule seguida do nome do módulo, por exemplo, defmodule Multiplicacao.
 
@@ -609,7 +672,7 @@ iex> Multiplicacao.multiplique 5, 4
 20
 ```
 
-### 6.1 Compilação
+### 7.1 Compilação
 
 Na maioria das vezes é conveniente escrever módulos em arquivos para que eles possam ser compilados e reutilizados. Vamos supor que temos um arquivo multiplicacao.ex com o seguinte conteúdo:
 
@@ -642,7 +705,7 @@ Os projetos Elixir geralmente são organizados em três diretórios:
 
 Ao mixtrabalhar em projetos reais, a ferramenta de construção chamada será responsável por compilar e configurar os caminhos adequados para você. Para fins de aprendizagem, Elixir também oferece suporte a um modo de script que é mais flexível e não gera nenhum artefato compilado.
 
-## 7 Structs
+## 8 Structs
 
 Structs são mapas especiais com um conjunto definido de chaves e valores padrões. Ele deve ser definido dentro de um módulo, no qual leva o nome dele. É comum para um struct ser a única coisa definido dentro de um módulo.
 
@@ -684,7 +747,7 @@ Mais importante, você pode associar estruturas contra mapas:
 iex> %{name: "Sean"} = sean
 %Example.User{name: "Sean", roles: [:admin, :owner]}
 ```
-## 8 Operador pipe
+## 9 Operador pipe
 O operador pipe |> é um grande auxiliador na hora de construir seu código em Elixir. O seu uso é simples de se entender. Ele pega o resultado da expressão da esquerda e aponta para o primeiro argumento da função a sua direita e assim segue.O objetivo é destacar os dados que estão sendo transformados por uma série de funções, e você pode tornar o seu código limpo.
 
 ```elixir
@@ -722,7 +785,7 @@ iex> carrinho |> Enum.map(&(Float.round(&1.valor - &1.valor * 0.3, 2))) |> Enum.
 
 ```
 
-## 9 Composição
+## 10 Composição
 Acima apredemos criar modulos e struct, agora iremos aprender a adcionar uma funcionalidade exitente neles, por meio da compisição. Veremos que `elixir` oferece vastas maneiras direntes para interagir com outros módulos.
 
  * **alias**
@@ -837,7 +900,7 @@ iex> Media.notas 5,5,5,5
 
  * use
 
-## 10 Recursividade
+## 11 Recursividade
 A recursividade é a definição de uma sub-rotina (função ou método) que pode invocar a si mesma, até que uma condição seja atingida e resolva um determinado problema.
 +No exemplo a seguir, o modulo `Repetir` imprime uma msg 10x:
 
