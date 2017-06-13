@@ -835,6 +835,7 @@ iex> Media.notas 5,5,5,5
  ```
 
  * **import**
+
   Usa-se import sempre que quisermos acessar facilmente funções ou macros de outros módulos, sem a necessidade de usar o nome completo.
 
   Vamos ver um exemplo bem silmples, vamos criar um modulo com as seguintes funções: soma, subtração, multiplicação e divisão.
@@ -899,8 +900,9 @@ iex> Media.notas 5,5,5,5
   Ainda existe dois átomos ou atom especiais que são, :function e :macros, que tem como objetico importar apenas funções e macros, repectativamente.        
 
  * **require**
+
  Elixir fornece `macros` como mecanismo de meta-programação (código de escrita que gera código).
-As macros são expandidas em tempo de compilação.
+ As macros são expandidas em tempo de compilação.
 
 As funções públicas em módulos estão disponíveis globalmente, mas para usar `macros`,
 você precisa optar por entrar, exigindo que o módulo esteja definido.
@@ -925,7 +927,7 @@ Isso significa que, para invocar `Integer.is_even / 1`, precisamos primeiro exig
 
  * **use**
 
- Quando você chama o `use` em seu módulo, é chamado o macro __using__ dos módulos em que o desenvolvedor pode gerar qualquer código que eles desejem.
+ Quando você chama o `use` em seu módulo, é chamado o macro `__using__` dos módulos em que o desenvolvedor pode gerar qualquer código que eles desejem.
 Ele também possui uma lista de argumentos.
 
 ```elixir
@@ -938,7 +940,7 @@ defmodule LibraryGithubElixir do
   end
 end
 ```
-Aqui nós definimos um módulo  __using__ macro.
+Aqui nós definimos um módulo  `__using__` macro.
 Injetamos uma função `print / 1` que, quando chamada, imprime o que for passado para ela.
 
 ```elixir
@@ -1232,7 +1234,7 @@ use  Mix.Config
 config :app, App.Hello, prefix: "Hello "
 ```
 
-Agora chamamos a configuração da seguinte forma: precisa iformar o nome da aplicação, seguida do nome do módulo e uma lista com o nome da configuração. Pode-se utilizar a variável "__MODULE__" que contém o nome do módulo atual, __MODULE__ = App.Hello.
+Agora chamamos a configuração da seguinte forma: precisa iformar o nome da aplicação, seguida do nome do módulo e uma lista com o nome da configuração. Pode-se utilizar a variável `__MODULE__` que contém o nome do módulo atual, `__MODULE__` = App.Hello.
 
 //hello.ex
 
