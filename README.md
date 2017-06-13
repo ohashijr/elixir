@@ -899,8 +899,58 @@ iex> Media.notas 5,5,5,5
   Ainda existe dois átomos ou atom especiais que são, :function e :macros, que tem como objetico importar apenas funções e macros, repectativamente.        
 
  * **require**
+ Elixir fornece `macros` como mecanismo de meta-programação (código de escrita que gera código).
+As macros são expandidas em tempo de compilação.
 
- * use
+As funções públicas em módulos estão disponíveis globalmente, mas para usar `macros`,
+você precisa optar por entrar, exigindo que o módulo esteja definido.
+
+```elixir
+#Verifica se o número é par
+iex> Integer.is_even(4)
+** (UndefinedFunctionError) function Integer.is_even/1 is undefined or private. However there is a macro with the same name and arity. Be sure to require Integer if you intend to invoke this macro
+   (elixir) Integer.is_even(4)
+
+
+iex> require Integer
+Integer
+
+
+iex> Integer.is_even(4)
+true
+```
+
+Em Elixir, Ineger.is_even é definido como uma `macro`.
+Isso significa que, para invocar `Integer.is_even / 1`, precisamos primeiro exigir o módulo Integer.
+
+ * **use**
+
+ Quando você chama o `use` em seu módulo, é chamado o macro __using__ dos módulos em que o desenvolvedor pode gerar qualquer código que eles desejem.
+Ele também possui uma lista de argumentos.
+
+```elixir
+
+defmodule LibraryGithubElixir do
+  defmacro __using__(_) do
+    quote do
+      def print(s), do: IO.puts(s)
+    end
+  end
+end
+```
+Aqui nós definimos um módulo  __using__ macro.
+Injetamos uma função `print / 1` que, quando chamada, imprime o que for passado para ela.
+
+```elixir
+
+defmodule MyLib do
+  use LibraryGithubElixir
+end
+
+iex> MyLib.print("Hello Elixir")
+Hello Elixir
+:ok
+```
 
 ## 11 Recursividade
 A recursividade é a definição de uma sub-rotina (função ou método) que pode invocar a si mesma, até que uma condição seja atingida e resolva um determinado problema.
@@ -922,3 +972,317 @@ iex>Repetir.imprimir_varias_vezes("Elixir", 10)
 ```
 
 ## 0 Mix
+A funcionalidade do `MIX` é construir projetos, gerenciar dependências e execução de tarefas.
+
+Com essa interface de linha de comando, além de criar projetos com toda a estrutura de pastas predefinidas, pode-se também customizar tarefas.
+
+O `MIX` por padrão já vem instalado juntamente como o `Elixir`. E a melhor maneira de entendermos o `Mix` é utilizando, vamos a prática. Será criado um projeto novo, faremos a analise de cada arquivo e pasta que vair ser gerado.
+
+Para criar um projeto basta digitar no terminal mix new <nome do projeto>, esse comando gerará toda a estrutura do projeto e todas as pastas necessárias para executá-lo.
+
+```Elixir
+$ mix new app
+* creating README.md
+* creating .gitignore
+* creating mix.exs
+* creating config
+* creating config/config.exs
+* creating lib
+* creating lib/app.ex
+* creating test
+* creating test/test_helper.exs
+* creating test/app_test.exs
+
+Your Mix project was created successfully.
+You can use "mix" to compile it, test it, and more:
+
+    cd app
+    mix test
+
+Run "mix help" for more commands.
+```
+No exemplo acima foi criado um projeto chamado app, observe que depois de executar o comando, o terminal mostra as pastas que foram ciradas e informa que é possível utilizar o Mix também para compilar e testar o projeto. Agora será feita uma breve explicação sobre a estrutura.
+
+### README
+Este arquivo é usado por sistema de controle de versão, como o GIT. Ele descreve o que o projeto faz, como ele faz e informações necessárias para executá-lo.
+
+//README.md
+
+```elixir
+# App
+
+**TODO: Add description**
+
+## Installation
+
+If [available in Hex](https://hex.pm/docs/publish), the package can be installed
+by adding `app` to your list of dependencies in `mix.exs`:
+
+```elixir
+def deps do
+  [{:app, "~> 0.1.0"}]
+end
+```
+
+Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
+and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
+be found at [https://hexdocs.pm/app](https://hexdocs.pm/app).
+```
+
+O README também informa que o projeto pode ser incluido no HEX, que é o gerenciador de dependências do Elixir, serve para mostrar a outros desenvolvedores como colocar seu projeto como uma dependência externa.
+
+###MIX.EXS
+Esse arquivo é um módulo, que gerencia todas as dependências do projeto. Nele é possível incluir dependências necessárias para o projeto carregar e informa a versão do elixir necessária para executá-lo.
+
+//mix.exs
+
+```elixir
+defmodule App.Mixfile do
+  use Mix.Project
+
+  def project do
+    [app: :app,
+     version: "0.1.0",
+     elixir: "~> 1.4",
+     build_embedded: Mix.env == :prod,
+     start_permanent: Mix.env == :prod,
+     deps: deps()]
+  end
+
+  # Configuration for the OTP application
+  #
+  # Type "mix help compile.app" for more information
+  def application do
+    # Specify extra applications you'll use from Erlang/Elixir
+    [extra_applications: [:logger]]
+  end
+
+  # Dependencies can be Hex packages:
+  #
+  #   {:my_dep, "~> 0.3.0"}
+  #
+  # Or git/path repositories:
+  #
+  #   {:my_dep, git: "https://github.com/elixir-lang/my_dep.git", tag: "0.1.0"}
+  #
+  # Type "mix help deps" for more examples and options
+  defp deps do
+    []
+  end
+end
+```
+
+A função `application` do módulo `mix.exs` carrega dependências externas necessárias para carregar a aplicação principal. Em quanto que a função `deps` carrega e faz download de todas as dependências.
+
+### TESTS
+Essa pasta contém todos os testes do seu projeto. tudo que for teste será criado aqui nessa pasta.
+
+//app_test.exs
+
+```elixir
+defmodule AppTest do
+  use ExUnit.Case
+  doctest App
+
+  test "the truth" do
+    assert 1 + 1 == 2
+  end
+end
+```
+
+### LIB
+Nessa pasta ficará todos os arquivos para execução do seu projeto. Até o momento, só existe um módulo com o mesmo nome do projeto "app".
+
+//app.ex
+
+```elixir
+defmodule App do
+  @moduledoc """
+  Documentation for App.
+  """
+
+  @doc """
+  Hello world.
+
+  ## Examples
+
+      iex> App.hello
+      :world
+
+  """
+  def hello do
+    :world
+  end
+end
+```
+Por convenção cria-se novos módulos dentro de uma pasta com o mesmo nome do projeto, dentro da pasta lib.
+Exemplo: lib/app/modulo.ex.
+
+Para fixar melhor ciremos uma pasta app, dentro da pasta lib, em seguida crie um módulo chamado hello.ex, dentro da pasta que criou na pasta lib, ficará assim: lib/app/hello.ex. O nome do módulo se chamará App.Hello, evitando assim conflito com nome, poderia ser qualquer outro nome.
+
+//hello.ex
+
+```elixir
+defmodule App.Hello do
+   def say(str) do
+       str
+   end
+end
+```
+Vamos executar o projeto, para isso entre na pasta dele e digite `iex -S mix`. Esse comando compila e execita o projeto.
+
+`$ iex -S mix`
+
+```elixir
+iex> App.Hello.say "Frank"  
+"Frank"
+```
+
+### CONFIG
+
+Essa pasta contém todas as configurações do projeto. O arquivo config.ex contém informações básicas de configuração.
+
+```elixir
+# This file is responsible for configuring your application
+# and its dependencies with the aid of the Mix.Config module.
+use Mix.Config
+
+# This configuration is loaded before any dependency and is restricted
+# to this project. If another project depends on this project, this
+# file won't be loaded nor affect the parent project. For this reason,
+# if you want to provide default values for your application for
+# 3rd-party users, it should be done in your "mix.exs" file.
+
+# You can configure for your application as:
+#
+#     config :elixir, key: :value
+#
+# And access this configuration in your application as:
+#
+#     Application.get_env(:elixir, :key)
+#
+# Or configure a 3rd-party app:
+#
+#     config :logger, level: :info
+#
+
+# It is also possible to import configuration files, relative to this
+# directory. For example, you can emulate configuration per environment
+# by uncommenting the line below and defining dev.exs, test.exs and such.
+# Configuration from the imported file will override the ones defined
+# here (which is why it is important to import them last).
+#
+#     import_config "#{Mix.env}.exs"
+```
+
+Este arquivo poder ser usado para passar argumentos para aplicação toda, muito útil para verificar se a aplicação está em ambiente de teste ou de produção.
+
+Vamos criar uma configuração personalizada e acessar dentro da aplicação que criamos anteriormente. Para isso, basta chamar a macro `config`, seguida dos argumentos que queremos utilizar.
+
+//config.exs
+```elixir
+use Mix.config
+
+config :app, prefix: "Hello "
+
+```
+
+Agora utilizamos esta configuração em nossa aplicação, concatenando a configuração com o argumetno da função, para visualizar o retorno.   
+
+//hello.ex
+```elixir
+defmodule App.Hello do
+  def say(str) do
+    Aplication.get_env(:app, :prefix) <> str
+  end
+end
+```
+
+$iex -S mix
+
+```elixir
+iex> App.Hello.say "LCA"
+"Hello LCA"
+```
+Ter que chamar Apllication.get_env(:app, :prefix) é uma coisa grande e repetitiva, para solucionar o problema, podemos criar uma variável no escopo do módulo. Estas variáveis podem ser ciradas em qualquer módulo e são pré-fixadas com @.
+
+```elixir
+defmodule App.Hello do
+
+  @prefix Application.get_env(:app, :prefix)
+
+  def say(str) do
+    @prefix <> str
+  end
+end
+```
+$ iex -S mix
+
+```elixir
+iex> App.Hello.say "LCA"
+"Hello LCA"
+```
+
+Podemos usar três argumentos na macro `config`, o primeiro continua sendo o nome da aplicação, já o segundo é o nome do módulo que queremos configurar, e o terceiro é o prefixo com a configuração que já vimos anteriormente.
+
+//config.exs
+```elixir
+use  Mix.Config
+
+config :app, App.Hello, prefix: "Hello "
+```
+
+Agora chamamos a configuração da seguinte forma: precisa iformar o nome da aplicação, seguida do nome do módulo e uma lista com o nome da configuração. Pode-se utilizar a variável "__MODULE__" que contém o nome do módulo atual, __MODULE__ = App.Hello.
+
+//hello.ex
+
+```elixir
+defmodule App.Hello do
+  @prefix Application.get_env(:app, __MODULE__)[:prefix]
+
+  def say(str) do
+    @prefix <> str
+  end
+end
+```
+
+$ iex -S mix
+
+```elixir
+iex> App.Hello.say "LCA"
+"Hello LCA"
+```
+### Configurando aplicação para executar em difere ambientes.
+
+Faremos um exemplo criado configurações separadas para cada um deles: ambiente testes, ambiente de desenvolvimento e outra para o de produção.
+
+Crie na pasta config os seguintes arquivos `test.exs, dev.exs e prod.exs`. faça as seguintes configurações para cada um:
+
+```elixir
+//	test.exs
+use	Mix.Config
+config	:app,	App.Hello,	prefix:	"Test:	"
+//	dev.exs
+use	Mix.Config
+config	:app,	App.Hello,	prefix:	"Dev:	"
+//	prod.exs
+use	Mix.Config
+config	:app,	App.Hello,	prefix:	"Prod:	"
+```
+
+Remova a configuração anterior que foi criada no arquivo principal, para não conflitar com as novas configurações. Descomente a seguinte  linha `import_config "#{Mix.env}.exs"`, para que o Mix possa importar as configurações personalizadas.
+
+Vamos executar, é simples, basta executar o Mix passando como argumento o ambiente em que ele será executado.
+
+$MIX_ENV = test iex -S mix
+
+```elixir
+iex>	App.Hello.say	"LCA"
+"Test:	LCA"
+
+$	MIX_ENV=dev	iex	-S	mix
+iex>	App.Hello.say	"LCA"
+"Dev:	LCA"
+```
+
+BUILD esse pasta contém todos os arquivos compilados que serão executados pela máquina virtual.
