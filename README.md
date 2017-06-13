@@ -44,7 +44,7 @@ Para iniciar, executamos `iex`:
 
  Nessa parte, Elixir também é semelhante as diversas linguagens de programação existentes, possuindo tipos numéricos, Strings, booleanos e coleções(veremos esse assunto no próxmio módulo). Entretanto ela também nos trás algumas caracteristicas de suporte para estruturas binárias, hexais e octais e a novas estruturas, como atoms(equivalente aos Símbolos em Ruby).
 
- Abra o shell e execute o comando `iex` pra começar a brincadeira.
+ Abra o shell e execute o comando `iex` para começar a brincadeira.
 
 ### 2.1 Tipos Numéricos
 
