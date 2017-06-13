@@ -449,19 +449,20 @@ iex> case :elixir do
 end
 "Tudo certo! Casou :elixir com :elixir"
 
+
 iex> case 90 do
 ...> 50 -> "Some mais 40 que é 90"  
 ...> 40  -> "Falta muito pra 90"
 ...> _    -> "Underline/Underscore nao é 90, mas é um coringa que casa com tudo!"
 end
-"Tudo certo! Casou :elixir com :elixir"
+"Underline/Underscore nao é 90, mas é um coringa que casa com tudo!"
 ```
 
 * Cond:
 
-Quando necessitamos associar condições, e não valores, nós podemos recorrer ao cond; Isso é semelhante ao else if ou elsif de outras linguagens:
+Quando necessitamos associar condições, e não valores, nós podemos recorrer ao `cond`; Isso é semelhante ao else if ou elseif de outras linguagens:
 
-
+```elixir
 iex> cond do
 ...>   2 + 2 == 5 ->
 ...>     "Isso ai nao é verdade."
@@ -471,6 +472,7 @@ iex> cond do
 ...>     "Acertou a cond!"
 ...> end
 "Acertou a cond!"
+```
 
 
 ## 6 Funções
